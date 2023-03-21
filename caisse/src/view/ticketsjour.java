@@ -4,11 +4,15 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+
+import controller.main;
+
 import javax.swing.JComboBox;
 
 public class ticketsjour {
@@ -39,6 +43,18 @@ public class ticketsjour {
 		frame.setVisible(true);
 	}
 
+	public ticketsjour(String a) throws SQLException {
+		if(main.getM().getListTransaction().size()!=0) {
+			for (int i=0;i!=main.getM().getListTransaction().size();i++) {
+				main.getM().getListTransaction().remove(i);
+			}
+		}
+		main.getM().consulterCAJOUR(a);
+		initialize();
+		frame.setVisible(true);
+		System.out.println("date selectionnée: "+a);
+	}
+
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -64,49 +80,61 @@ public class ticketsjour {
 		lblParamtres.setBounds(433, 46, 216, 30);
 		frame.getContentPane().add(lblParamtres);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(346, 113, 398, 36);
-		frame.getContentPane().add(comboBox);
-		
 		JLabel lblDateDeTransaction = new JLabel("Date de la transaction :");
 		lblDateDeTransaction.setHorizontalAlignment(SwingConstants.LEFT);
 		lblDateDeTransaction.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		lblDateDeTransaction.setBounds(239, 214, 197, 36);
+		lblDateDeTransaction.setBounds(57, 214, 197, 36);
 		frame.getContentPane().add(lblDateDeTransaction);
 		
 		JLabel lblChiffreDuJour = new JLabel("Montant ticket :");
 		lblChiffreDuJour.setHorizontalAlignment(SwingConstants.LEFT);
 		lblChiffreDuJour.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		lblChiffreDuJour.setBounds(239, 273, 177, 36);
+		lblChiffreDuJour.setBounds(57, 273, 177, 36);
 		frame.getContentPane().add(lblChiffreDuJour);
 		
 		JLabel date = new JLabel("--");
 		date.setHorizontalAlignment(SwingConstants.CENTER);
 		date.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		date.setBounds(472, 214, 177, 36);
+		date.setBounds(264, 214, 286, 36);
 		frame.getContentPane().add(date);
 		
-		JLabel ca = new JLabel("--");
-		ca.setHorizontalAlignment(SwingConstants.CENTER);
-		ca.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		ca.setBounds(472, 273, 177, 36);
-		frame.getContentPane().add(ca);
-		
-		JButton rechercher = new JButton("Rechercher");
-		rechercher.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		rechercher.setBounds(782, 113, 141, 36);
-		frame.getContentPane().add(rechercher);
+		JLabel cajour = new JLabel("--");
+		cajour.setHorizontalAlignment(SwingConstants.CENTER);
+		cajour.setFont(new Font("Tahoma", Font.PLAIN, 19));
+		cajour.setBounds(264, 273, 286, 36);
+		frame.getContentPane().add(cajour);
 		
 		JLabel lblTypeDePaiement = new JLabel("Type de paiement :");
 		lblTypeDePaiement.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTypeDePaiement.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		lblTypeDePaiement.setBounds(239, 339, 177, 36);
+		lblTypeDePaiement.setBounds(57, 339, 177, 36);
 		frame.getContentPane().add(lblTypeDePaiement);
 		
 		JLabel paiement = new JLabel("--");
 		paiement.setHorizontalAlignment(SwingConstants.CENTER);
 		paiement.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		paiement.setBounds(472, 339, 177, 36);
+		paiement.setBounds(264, 339, 286, 36);
 		frame.getContentPane().add(paiement);
+		
+		JComboBox combo = new JComboBox();
+		
+		System.out.println("size : "+main.getM().getListTransaction().size());
+		
+		for(int i=0;i!=main.getM().getListTransaction().size();i++) {
+			combo.addItem(main.getM().getListTransaction().get(i).getDate());
+		}
+		
+		combo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cajour.setText(String.valueOf(main.getM().getListTransaction().get(combo.getSelectedIndex()).getMontant()));
+				paiement.setText(main.getM().getListTransaction().get(combo.getSelectedIndex()).getPaiement());
+				date.setText(main.getM().getListTransaction().get(combo.getSelectedIndex()).getDate());
+				
+			}
+		});
+		combo.setBounds(346, 112, 398, 36);
+		frame.getContentPane().add(combo);
+		
 	}
+	
 }

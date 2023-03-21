@@ -6,16 +6,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import controller.main;
-import view.accueil;
-
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import javax.swing.JComboBox;
 
 public class ajout_manuel {
 
@@ -96,16 +94,29 @@ public class ajout_manuel {
 		button_retour.setBounds(38, 335, 166, 46);
 		frame.getContentPane().add(button_retour);
 		
+		JComboBox quantite = new JComboBox();
+		quantite.setMaximumRowCount(20);
+		quantite.setBounds(554, 262, 121, 30);
+		frame.getContentPane().add(quantite);
+		
+		for (int i=0;i!=20;i++) {
+			quantite.addItem(i);
+		}
+		
+		JLabel label = new JLabel("Quantité :");
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setFont(new Font("Tahoma", Font.PLAIN, 19));
+		label.setBounds(554, 179, 121, 30);
+		frame.getContentPane().add(label);
+		
 		JButton btnValider = new JButton("Valider");
 		btnValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				try {
-					Float.parseFloat( prix.getText());
+					Float.parseFloat(prix.getText());
 					float prixfloat = Float.parseFloat( prix.getText() ); 
-					main.getM().ajoutticket(nom.getText(), prixfloat);
+					main.getM().ajoutticket(nom.getText(),Integer.parseInt(quantite.getSelectedItem().toString()),prixfloat);
 					verif.setText("Le produit "+nom.getText()+" a bien été ajouté au ticket au prix de "+prix.getText());
-					
 					
 					
 				} catch (SQLException e1) {

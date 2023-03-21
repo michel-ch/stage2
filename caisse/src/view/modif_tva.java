@@ -4,11 +4,15 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+
+import controller.main;
+
 import javax.swing.JTextField;
 
 public class modif_tva {
@@ -65,15 +69,10 @@ public class modif_tva {
 		lblModificationDeLa.setBounds(246, 44, 205, 23);
 		frame.getContentPane().add(lblModificationDeLa);
 		
-		JLabel verif = new JLabel("infos");
+		JLabel verif = new JLabel("");
 		verif.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		verif.setBounds(72, 100, 583, 23);
 		frame.getContentPane().add(verif);
-		
-		JButton btnValider = new JButton("Valider");
-		btnValider.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		btnValider.setBounds(350, 342, 157, 46);
-		frame.getContentPane().add(btnValider);
 		
 		JLabel lblTvaActuelle = new JLabel("TVA actuelle :");
 		lblTvaActuelle.setHorizontalAlignment(SwingConstants.CENTER);
@@ -97,5 +96,30 @@ public class modif_tva {
 		tva_actuelle_1.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		tva_actuelle_1.setBounds(440, 139, 29, 36);
 		frame.getContentPane().add(tva_actuelle_1);
+		
+		tva_actuelle.setText(String.valueOf(main.getM().getTVA().get(0).getTva()));
+		
+		JButton btnValider = new JButton("Valider");
+		btnValider.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(Float.parseFloat(tva.getText())<100) {
+					try {
+						main.getM().modifTVA(Float.parseFloat(tva.getText()));
+						verif.setText("La TVA a bien été changé à hauteur de : "+tva.getText()+" %");
+						tva_actuelle.setText(String.valueOf(main.getM().getTVA().get(0).getTva()));
+					} catch (NumberFormatException | SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+						verif.setText("Une ERREUR est survenue veuillez contacter le support.");
+					}
+				}
+				else {
+					verif.setText("Veuillez entrer un chiffre entre 0 et 100.");
+				}
+			}
+		});
+		btnValider.setFont(new Font("Tahoma", Font.PLAIN, 19));
+		btnValider.setBounds(350, 342, 157, 46);
+		frame.getContentPane().add(btnValider);
 	}
 }

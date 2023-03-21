@@ -23,6 +23,7 @@ public class model {
 	private ArrayList<CA> ListCA;
 	private ArrayList<TRANSACTION> ListTransaction;
 	private ArrayList<PRODUIT> Ticket;
+	private ArrayList<TAXE> ListTVA;
 	
 	public model() {
 		
@@ -60,6 +61,10 @@ public class model {
 	public ArrayList<PRODUIT> getTicket() {
 		return Ticket;
 	}
+	public ArrayList<TAXE> getTVA(){
+		return ListTVA;
+	}
+	
 	public void getAll() throws SQLException {
 		//ListProduits.clear();
 		//ListCA.clear();
@@ -68,7 +73,7 @@ public class model {
 		ListCA=new ArrayList<CA> ();
 		ListTransaction=new ArrayList<TRANSACTION>();
 		Ticket = new ArrayList<PRODUIT>();
-		
+		ListTVA = new ArrayList<TAXE>();
 		
 		ResultSet resultats;
 		String requete;
@@ -94,7 +99,7 @@ public class model {
 		stmt = con.createStatement();
 		resultats = stmt.executeQuery(requete);
 		while (resultats.next()) {
-			CA ca = new CA(resultats.getInt(1), resultats.getFloat(2));
+			CA ca = new CA(resultats.getInt(1), resultats.getFloat(2),resultats.getString(3));
 			ListCA.add(ca);
 		}
 		
@@ -107,19 +112,7 @@ public class model {
 		resultats = stmt.executeQuery(requete);
 		while(resultats.next()) {
 			TAXE loi = new TAXE(resultats.getInt(1), resultats.getFloat(2));
-		}
-		
-		//*************************************
-		// CREATION LISTE TRANSACTION
-		//*************************************
-		
-		requete = "SELECT * FROM transactions";
-		
-		stmt = con.createStatement();
-		resultats = stmt.executeQuery(requete);
-		while (resultats.next()) {
-			TRANSACTION transaction = new TRANSACTION(resultats.getInt(1), resultats.getString(2), resultats.getFloat(3), resultats.getString(4));
-			ListTransaction.add(transaction);
+			ListTVA.add(loi);
 		}
 		
 		
@@ -181,6 +174,18 @@ public class model {
 		return null;
 	}
 	
+	public TAXE findTVA(int id)
+	{
+		for(int i=0;i<ListTVA.size();i++)
+		{
+			if(ListTVA.get(i).getId()==id)
+			{
+				return ListTVA.get(i);
+			}
+		}
+		return null;
+	}
+	
 	//***************************************************
 	// AJOUT DE PRODUIT LISTE
 	//***************************************************
@@ -223,27 +228,66 @@ public class model {
 		main.getM().ListProduits.remove(p);
 	}
 	
+	//***************************************************
+	// MODIF DE PRODUIT LISTE
+	//***************************************************
 	
+	public void modifProduit(String origine,String nom,float prix) throws SQLException {
+		//System.out.println(main.getM().findproduits(nom).getNom());
+		//System.out.println(main.getM().findproduits(nom).getPrix());
+		Statement command = con.createStatement();
+		int origineid = main.getM().findproduits(origine).getId();
+		command.execute("UPDATE `produits` SET `nom` = '"+nom+"' , prix = "+prix+" WHERE `produits`.`id` = '"+origineid+"';");
+		//System.out.println("UPDATE `produits` SET `nom` = '"+nom+"' , prix = "+prix+" WHERE `produits`.`id` = '"+origineid+"';");
+		
+		// CHANGEMENT DES NOM PRIX DANS LA LISTE
+		PRODUIT p = main.getM().findproduits(origine);
+		p.setNom(nom);
+		p.setPrix(prix);
+	}
+	
+	//***************************************************
+	// MODIF TVA
+	//***************************************************
+	
+	public void modifTVA(float tva) throws SQLException {
+		Statement command = con.createStatement();
+		command.execute("UPDATE `loi` SET `tva` = '"+tva+"' WHERE `loi`.`id` = 1;");
+		TAXE a = main.getM().findTVA(1);
+		a.setTva(tva);
+	}
 	
 	
 	//***************************************************
 	// AJOUT DE PRODUIT TICKET 
 	//***************************************************
 	
-	public void ajoutticket(String nom, float prix) throws SQLException {
-		PRODUIT produit = new PRODUIT(nom,prix);
+	public void ajoutticket(String nom,int quantite ,float prix) throws SQLException {
+		PRODUIT produit = new PRODUIT(nom,quantite,prix);
 		main.getM().Ticket.add(produit);
-		System.out.println(main.getM().getTicket().size());
+		//System.out.println(main.getM().getTicket().size());
 	}
 	
+	//***************************************************
+	// CONSULTER TRANSACTION AVEC CA
+	//***************************************************
 	
-	/*public void reloadframe() {
-		for (int i=0;i!=main.getM().getTicket().size();i++) {
-			ticket.add("Nom : "+main.getM().getTicket().get(i).getNom()+" Prix : "+main.getM().getTicket().get(i).getPrix());
-			
-		}
+	public void consulterCAJOUR(String date) throws SQLException {
 		
-	}*/
+		ResultSet resultats;
+		String requete;
+		System.out.println("SELECT * FROM `transactions` where DATE(date) = '"+date+"'");
+		requete = "SELECT * FROM `transactions` where DATE(date) = '"+date+"'";
+		Statement stmt = con.createStatement();
+		resultats = stmt.executeQuery(requete);
+		while (resultats.next()) {
+			//System.out.println(" "+resultats.getInt(1)+" "+resultats.getString(2)+" "+resultats.getFloat(3)+" "+resultats.getString(4));
+			TRANSACTION transaction = new TRANSACTION(resultats.getInt(1), resultats.getString(2), resultats.getFloat(3), resultats.getString(4));
+			ListTransaction.add(transaction);
+		}
+		//System.out.println("size : "+ListTransaction.size());
+		
+	}
 	
 	
 	//***************************************************

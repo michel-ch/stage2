@@ -27,7 +27,6 @@ public class CA {
 		super();
 		this.id = id;
 		this.cajour = cajour;
-		this.date = date;
 	}
 	public CA(int id, float cajour, String date) {
 		super();

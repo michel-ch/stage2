@@ -4,11 +4,15 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+
+import controller.main;
+
 import javax.swing.JComboBox;
 
 public class ca {
@@ -64,10 +68,6 @@ public class ca {
 		lblParamtres.setBounds(433, 46, 216, 30);
 		frame.getContentPane().add(lblParamtres);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(346, 113, 398, 36);
-		frame.getContentPane().add(comboBox);
-		
 		JLabel lblDateDeTransaction = new JLabel("Date de la transaction :");
 		lblDateDeTransaction.setHorizontalAlignment(SwingConstants.LEFT);
 		lblDateDeTransaction.setFont(new Font("Tahoma", Font.PLAIN, 19));
@@ -92,16 +92,33 @@ public class ca {
 		ca.setBounds(472, 273, 177, 36);
 		frame.getContentPane().add(ca);
 		
-		JButton rechercher = new JButton("Rechercher");
-		rechercher.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		rechercher.setBounds(782, 113, 141, 36);
-		frame.getContentPane().add(rechercher);
+		JComboBox combo = new JComboBox();
+		
+		combo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				date.setText(main.getM().getListCA().get(combo.getSelectedIndex()).getDate());
+				ca.setText(String.valueOf(main.getM().getListCA().get(combo.getSelectedIndex()).getCajour()));
+			}
+		});
+		
+		combo.setBounds(346, 113, 398, 36);
+		frame.getContentPane().add(combo);
+		
+		for(int i=0;i!=main.getM().getListCA().size();i++) {
+			combo.addItem(main.getM().getListCA().get(i).getDate());
+		}
+		
 		
 		JButton ticketsjour = new JButton("Voir les tickets du jour");
 		ticketsjour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ticketsjour vca = new ticketsjour();
-				
+				String a = main.getM().getListCA().get(combo.getSelectedIndex()).getDate();
+				try {
+					ticketsjour date = new ticketsjour(a);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		ticketsjour.setFont(new Font("Tahoma", Font.PLAIN, 19));

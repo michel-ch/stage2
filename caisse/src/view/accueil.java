@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -7,6 +8,8 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import controller.main;
 import model.model;
@@ -22,6 +25,7 @@ import java.awt.List;
 import javax.swing.JSpinner;
 import javax.swing.JList;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 
 public class accueil {
 
@@ -46,8 +50,9 @@ public class accueil {
 
 	/**
 	 * Create the application.
+	 * @throws SQLException 
 	 */
-	public accueil() {
+	public accueil() throws SQLException {
 		try {
 			initialize();
 		} catch (SQLException e) {
@@ -57,11 +62,6 @@ public class accueil {
 		frame.setVisible(true);
 	}
 	
-	public void validation(boolean entree) {
-		if(entree) {
-			
-		}
-	}
 
 	/**
 	 * Initialize the contents of the frame.
@@ -203,32 +203,65 @@ public class accueil {
 		frame.getContentPane().add(button_ca);
 		
 		// DONNEES TESTS
-		main.getM().ajoutticket("produit1", 11);
-		main.getM().ajoutticket("produit2", 22);
+		main.getM().ajoutticket("produit1", 1,11);
+		main.getM().ajoutticket("produit2", 1,22);
 		
-		table = new JTable();
-		table.setBounds(64, 146, 587, 629);
+		
+		// en tete tableau
+		String[] columns = new String[] {
+	            "Nom","Quantite","Prix"
+	        };
+		DefaultTableModel tableModel = new DefaultTableModel();
+		tableModel.addColumn("Nom");
+		tableModel.addColumn("Quantite");
+		tableModel.addColumn("Prix");
+		
+		JTable table = new JTable(tableModel);
+		
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setFont(new Font("Arial", Font.PLAIN, 15));
+		table.setBounds(64, 108, 587, 667);
 		frame.getContentPane().add(table);
+		//table.setBackground(new Color(230, 218, 198));
+		table.setRowHeight(25);
+		table.setRowMargin(10);
 		
-		// CREATION LISTE POUR JLIST
+		tableModel.addRow(new Object[] {"produit","1","prix"});
 		
-		DefaultListModel<String> model = new DefaultListModel<>();
-		
-		main.getM().ajoutticket("produit1", 11);
-		main.getM().ajoutticket("produit2", 22);
-		
-		// AJOUT ELEMENT LISTE
-		
+		//données pour JTable dans un tableau 2D
+		tableModel.getDataVector().removeAllElements();
 		for (int i=0;i!=main.getM().getTicket().size();i++) {
-			model.addElement(main.getM().getTicket().get(i).getNom());
+			String nom = main.getM().getTicket().get(i).getNom();
+			float prix = main.getM().getTicket().get(i).getPrix();
+			int quantite = main.getM().getTicket().get(i).getQuantite();
+			System.out.println("nom : "+nom+" quantite : "+quantite+" prix : "+prix);
+			Object[] data = {nom,quantite,prix};
+			tableModel.addRow(data);
 		}
 		
 		
+		Timer timer = new Timer();
+		TimerTask task = new TimerTask() {
+			@Override
+			public void run() {
+				if(tableModel.getRowCount()!=main.getM().getTicket().size()) {
+					// DELETE ROWS OF TABLE
+					tableModel.getDataVector().removeAllElements();
+					// ADD ROWS INT TABLE
+					for (int i=0;i!=main.getM().getTicket().size();i++) {
+						String nom = main.getM().getTicket().get(i).getNom();
+						float prix = main.getM().getTicket().get(i).getPrix();
+						int quantite = main.getM().getTicket().get(i).getQuantite();
+						Object[] data = {nom,quantite,prix};
+						tableModel.addRow(data);
+					}
+				}
+			};
+			
+		};
+		timer.schedule(task, 100,100);
 		
-		
-		
-		
-		
+
 		
 	}
 }

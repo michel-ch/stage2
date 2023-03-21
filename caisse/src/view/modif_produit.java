@@ -4,11 +4,15 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+
+import controller.main;
+
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 
@@ -60,11 +64,6 @@ public class modif_produit {
 		button_retour.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		button_retour.setBounds(46, 342, 166, 46);
 		frame.getContentPane().add(button_retour);
-		
-		JButton btnValider = new JButton("Valider");
-		btnValider.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		btnValider.setBounds(378, 342, 157, 46);
-		frame.getContentPane().add(btnValider);
 		
 		JLabel lblModificationDeProduit = new JLabel("Modification de produit");
 		lblModificationDeProduit.setHorizontalAlignment(SwingConstants.CENTER);
@@ -129,9 +128,76 @@ public class modif_produit {
 		lblNouveauPrix.setBounds(153, 278, 166, 36);
 		frame.getContentPane().add(lblNouveauPrix);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(153, 55, 434, 36);
-		frame.getContentPane().add(comboBox);
+		JComboBox combo = new JComboBox();
+		combo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// System.out.println(combo.getSelectedItem());
+				String a = combo.getSelectedItem().toString();
+				nom_produit.setText(main.getM().findproduits(a).getNom());
+				prix_produit.setText(String.valueOf(main.getM().findproduits(a).getPrix()));
+			}
+		});
+		combo.setBounds(153, 55, 434, 36);
+		frame.getContentPane().add(combo);
+		
+		combo.removeAllItems();
+		for (int i=0;i!=main.getM().getListProduits().size();i++) {
+			combo.addItem(main.getM().getListProduits().get(i).getNom());	
+		}
+		
+		JButton btnValider = new JButton("Valider");
+		btnValider.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if(nouveau_nom.getText()==null&&nouveau_prix.getText()==null) {
+					verif.setText("Veuillez insérer au moins une donnée à modifier.");
+				}
+				else {
+					float prix;
+					String nom,origine;
+					if(nouveau_nom.getText().isEmpty()&&!nouveau_prix.getText().isEmpty()) {
+						prix = Float.parseFloat(nouveau_prix.getText());
+						nom = main.getM().findproduits(combo.getSelectedItem().toString()).getNom();
+						origine = nom;
+						System.out.println("origine : "+origine+" nom : "+nom+" prix: "+prix);
+						try {
+							main.getM().modifProduit(nom,nom, prix);
+						} catch (NumberFormatException | SQLException e1) {
+							verif.setText("Une ERREUR est survenue veuillez contacter le support.");
+							e1.printStackTrace();
+						}
+					}
+					else if(!nouveau_nom.getText().isEmpty()&&nouveau_prix.getText().isEmpty()){
+						nom = nouveau_nom.getText();
+						prix = main.getM().findproduits(combo.getSelectedItem().toString()).getPrix();
+						origine = main.getM().findproduits(combo.getSelectedItem().toString()).getNom();
+						System.out.println("origine : "+origine+" nom : "+nom+" prix: "+prix);
+						try {
+							main.getM().modifProduit(origine,nom, prix);
+						} catch (NumberFormatException | SQLException e1) {
+							verif.setText("Une ERREUR est survenue veuillez contacter le support.");
+							e1.printStackTrace();
+						}
+					}
+					else {
+						nom = nouveau_nom.getText();
+						prix = Float.parseFloat(nouveau_prix.getText());
+						origine = main.getM().findproduits(combo.getSelectedItem().toString()).getNom();
+						System.out.println("origine : "+origine+" nom : "+nom+" prix: "+prix);
+						try {
+							main.getM().modifProduit(origine,nom, prix);
+						} catch (NumberFormatException | SQLException e1) {
+							verif.setText("Une ERREUR est survenue veuillez contacter le support.");
+							e1.printStackTrace();
+						}
+					}
+					
+				}
+			}
+		});
+		btnValider.setFont(new Font("Tahoma", Font.PLAIN, 19));
+		btnValider.setBounds(378, 342, 157, 46);
+		frame.getContentPane().add(btnValider);
 	}
 
 }
