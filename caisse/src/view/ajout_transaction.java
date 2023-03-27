@@ -4,11 +4,15 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+
+import controller.main;
+
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 
@@ -58,7 +62,7 @@ public class ajout_transaction {
 			}
 		});
 		button_retour.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		button_retour.setBounds(46, 342, 166, 46);
+		button_retour.setBounds(46, 353, 166, 46);
 		frame.getContentPane().add(button_retour);
 		
 		JLabel lblAjoutDeTransaction = new JLabel("Ajout de transaction");
@@ -68,52 +72,57 @@ public class ajout_transaction {
 		frame.getContentPane().add(lblAjoutDeTransaction);
 		
 		JLabel verif = new JLabel("infos");
+		verif.setHorizontalAlignment(SwingConstants.CENTER);
 		verif.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		verif.setBounds(58, 60, 583, 23);
+		verif.setBounds(60, 82, 583, 23);
 		frame.getContentPane().add(verif);
 		
 		JLabel lblTypeDePaiement = new JLabel("Type de paiement :");
 		lblTypeDePaiement.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTypeDePaiement.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		lblTypeDePaiement.setBounds(103, 105, 173, 36);
+		lblTypeDePaiement.setBounds(103, 139, 173, 36);
 		frame.getContentPane().add(lblTypeDePaiement);
 		
 		JLabel lblMontant = new JLabel("Montant :");
 		lblMontant.setHorizontalAlignment(SwingConstants.LEFT);
 		lblMontant.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		lblMontant.setBounds(102, 179, 125, 36);
+		lblMontant.setBounds(103, 255, 125, 36);
 		frame.getContentPane().add(lblMontant);
-		
-		JLabel lblDate = new JLabel("Date :");
-		lblDate.setHorizontalAlignment(SwingConstants.LEFT);
-		lblDate.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		lblDate.setBounds(102, 241, 63, 36);
-		frame.getContentPane().add(lblDate);
-		
-		JButton btnValider = new JButton("Valider");
-		btnValider.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		btnValider.setBounds(391, 342, 157, 46);
-		frame.getContentPane().add(btnValider);
 		
 		paiement = new JTextField();
 		paiement.setColumns(10);
-		paiement.setBounds(343, 109, 216, 36);
+		paiement.setBounds(343, 143, 216, 36);
 		frame.getContentPane().add(paiement);
 		
 		montant = new JTextField();
 		montant.setColumns(10);
-		montant.setBounds(343, 183, 216, 36);
+		montant.setBounds(343, 259, 216, 36);
 		frame.getContentPane().add(montant);
-		
-		JComboBox date = new JComboBox();
-		date.setBounds(343, 245, 216, 36);
-		frame.getContentPane().add(date);
 		
 		JLabel lbl€ = new JLabel("€");
 		lbl€.setHorizontalAlignment(SwingConstants.LEFT);
 		lbl€.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		lbl€.setBounds(569, 183, 21, 36);
+		lbl€.setBounds(569, 259, 21, 36);
 		frame.getContentPane().add(lbl€);
+		
+		JButton btnValider = new JButton("Valider");
+		btnValider.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(!montant.getText().isEmpty()&&!paiement.getText().isEmpty()) {
+					try {
+						float a = Float.parseFloat(montant.getText());
+						System.out.println("paiement : "+paiement.getText()+" montant : "+montant.getText());
+						main.getM().creationTransaction(paiement.getText(),a);
+						verif.setText("La transaction a bien été ajoutée.");
+					} catch (NumberFormatException | SQLException e1) {
+						e1.printStackTrace();
+						verif.setText("Veuillez insérer un mode de paiement et un montant corrects.");
+					}
+				}
+			}
+		});
+		btnValider.setFont(new Font("Tahoma", Font.PLAIN, 19));
+		btnValider.setBounds(376, 353, 157, 46);
+		frame.getContentPane().add(btnValider);
 	}
-
 }

@@ -10,6 +10,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import controller.main;
+
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
@@ -80,6 +81,7 @@ public class ajout_manuel {
 		frame.getContentPane().add(nom);
 		
 		JLabel verif = new JLabel("");
+		verif.setHorizontalAlignment(SwingConstants.CENTER);
 		verif.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		verif.setBounds(67, 95, 562, 30);
 		frame.getContentPane().add(verif);
@@ -99,7 +101,7 @@ public class ajout_manuel {
 		quantite.setBounds(554, 262, 121, 30);
 		frame.getContentPane().add(quantite);
 		
-		for (int i=0;i!=20;i++) {
+		for (int i=1;i!=21;i++) {
 			quantite.addItem(i);
 		}
 		
@@ -112,16 +114,21 @@ public class ajout_manuel {
 		JButton btnValider = new JButton("Valider");
 		btnValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					Float.parseFloat(prix.getText());
-					float prixfloat = Float.parseFloat( prix.getText() ); 
-					main.getM().ajoutticket(nom.getText(),Integer.parseInt(quantite.getSelectedItem().toString()),prixfloat);
-					verif.setText("Le produit "+nom.getText()+" a bien été ajouté au ticket au prix de "+prix.getText());
-					
-					
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				if(!prix.getText().isEmpty()&&!nom.getText().isEmpty()) {
+					try {
+						Float.parseFloat(prix.getText());
+						float prixfloat = Float.parseFloat( prix.getText() ); 
+						main.getM().ajoutticket(nom.getText(),Integer.parseInt(quantite.getSelectedItem().toString()),prixfloat);
+						verif.setText("Le produit "+nom.getText()+" a bien été ajouté au ticket au prix de "+prix.getText()+" .");
+						
+						
+					} catch (SQLException e1) {
+						verif.setText("Veuillez saisir un nom de produit et un montant correct.");
+						e1.printStackTrace();
+					}
+				}
+				else {
+					verif.setText("Veuillez saisir un nom de produit et un montant.");
 				}
 			}
 		});

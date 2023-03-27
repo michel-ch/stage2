@@ -90,7 +90,7 @@ public class suppression_produit {
 		lblProduitSupprimer.setBounds(46, 164, 205, 36);
 		frame.getContentPane().add(lblProduitSupprimer);
 		
-		JButton btnValider = new JButton("Valider");
+		JButton btnValider = new JButton("Supprimer");
 		btnValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {

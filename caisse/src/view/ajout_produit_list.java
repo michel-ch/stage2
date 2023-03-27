@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import controller.main;
+
 import javax.swing.JTextField;
 
 public class ajout_produit_list {

@@ -8,7 +8,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
+import controller.main;
+
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class deduction {
@@ -56,11 +60,6 @@ public class deduction {
 		lblNewLabel.setBounds(289, 40, 216, 30);
 		frame.getContentPane().add(lblNewLabel);
 		
-		JButton btnValider = new JButton("Valider");
-		btnValider.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		btnValider.setBounds(321, 335, 157, 46);
-		frame.getContentPane().add(btnValider);
-		
 		montant = new JTextField();
 		montant.setBounds(289, 255, 216, 36);
 		frame.getContentPane().add(montant);
@@ -95,6 +94,25 @@ public class deduction {
 		button_retour.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		button_retour.setBounds(38, 335, 166, 46);
 		frame.getContentPane().add(button_retour);
+		
+		JButton btnValider = new JButton("Valider");
+		btnValider.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					float a = Float.parseFloat(montant.getText());
+					float nega = -1;
+					float b = nega*a;
+					main.getM().ajoutticket(motif.getText(), 1,b);
+					verif.setText("La déduction sur le ticket à hauteur de "+montant.getText()+" pour "+motif.getText()+" a été bien faite");
+				} catch (NumberFormatException | SQLException e1) {
+					verif.setText("Veuillez saisir un motif et un prix correct.");
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnValider.setFont(new Font("Tahoma", Font.PLAIN, 19));
+		btnValider.setBounds(321, 335, 157, 46);
+		frame.getContentPane().add(btnValider);
 	}
 
 }

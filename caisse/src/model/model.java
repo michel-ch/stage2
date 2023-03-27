@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import com.mysql.jdbc.PreparedStatement;
@@ -14,6 +13,7 @@ import com.mysql.jdbc.PreparedStatement;
 import controller.main;
 import view.accueil;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 
 public class model {
@@ -24,6 +24,8 @@ public class model {
 	private ArrayList<TRANSACTION> ListTransaction;
 	private ArrayList<PRODUIT> Ticket;
 	private ArrayList<TAXE> ListTVA;
+	private ArrayList<TRANSACTION> Listpaiement;
+	private ArrayList<PRODUIT> ListProduitsTransaction;
 	
 	public model() {
 		
@@ -61,8 +63,14 @@ public class model {
 	public ArrayList<PRODUIT> getTicket() {
 		return Ticket;
 	}
+	public ArrayList<PRODUIT> getListProduitsTransaction() {
+		return ListProduitsTransaction;
+	}
 	public ArrayList<TAXE> getTVA(){
 		return ListTVA;
+	}
+	public ArrayList<TRANSACTION> getPaiement(){
+		return Listpaiement;
 	}
 	
 	public void getAll() throws SQLException {
@@ -74,6 +82,8 @@ public class model {
 		ListTransaction=new ArrayList<TRANSACTION>();
 		Ticket = new ArrayList<PRODUIT>();
 		ListTVA = new ArrayList<TAXE>();
+		Listpaiement = new ArrayList<TRANSACTION>();
+		ListProduitsTransaction = new ArrayList<PRODUIT>();
 		
 		ResultSet resultats;
 		String requete;
@@ -276,7 +286,7 @@ public class model {
 		
 		ResultSet resultats;
 		String requete;
-		System.out.println("SELECT * FROM `transactions` where DATE(date) = '"+date+"'");
+		//System.out.println("SELECT * FROM `transactions` where DATE(date) = '"+date+"'");
 		requete = "SELECT * FROM `transactions` where DATE(date) = '"+date+"'";
 		Statement stmt = con.createStatement();
 		resultats = stmt.executeQuery(requete);
@@ -289,6 +299,156 @@ public class model {
 		
 	}
 	
+	//***************************************************
+	// CREATION TRANSACTION
+	//***************************************************
+	
+	public void creationTransaction(String paiement, float prix) throws SQLException {
+		Statement command = con.createStatement();
+		ResultSet resultats;
+		String requete;
+		command.execute("INSERT INTO `transactions` (`id`, `paiement`, `montant`, `date`) VALUES (NULL, '"+paiement+"', '"+prix+"', NOW());");
+		//System.out.println("INSERT INTO `transactions` (`id`, `paiement`, `montant`, `date`) VALUES (NULL, '"+paiement+"', '"+prix+"', NOW());");
+		ListTransaction.clear();
+		requete = "SELECT * FROM `transactions`";
+		Statement stmt = con.createStatement();
+		resultats = stmt.executeQuery(requete);
+		while (resultats.next()) {
+			//System.out.println(" "+resultats.getInt(1)+" "+resultats.getString(2)+" "+resultats.getFloat(3)+" "+resultats.getString(4));
+			TRANSACTION transaction = new TRANSACTION(resultats.getInt(1), resultats.getString(2), resultats.getFloat(3), resultats.getString(4));
+			ListTransaction.add(transaction);
+		}
+		
+		//System.out.println("SELECT * FROM `transactions` where DATE(date) = '"+date+"'");
+		requete = "SELECT id , chiffrejour FROM `ca` where date = DATE(NOW());";
+		resultats = stmt.executeQuery(requete);
+		if(resultats.next()) {
+			int id = resultats.getInt(1);
+			float a = resultats.getFloat(2);
+			BigDecimal a2 = new BigDecimal(a);
+			BigDecimal a3 = new BigDecimal(prix);
+			BigDecimal total = a2.add(a3);
+			System.out.println("total = "+total);
+			System.out.println("UPDATE `ca` SET `chiffrejour` = '\"+total+\"' WHERE `ca`.`id` = \"+id+\" ;");
+			command.execute("UPDATE `ca` SET `chiffrejour` = '"+total+"' WHERE `ca`.`id` = "+id+" ;");
+			
+		}
+	
+	}
+	//***************************************************
+	// AJOUT PAIEMENT TRANSACTION LISTE
+	//***************************************************
+	
+	public void paiementTransaction(String paiement, float montant) throws SQLException {
+		TRANSACTION a = new TRANSACTION (paiement,montant);
+		Listpaiement.add(a);
+		//System.out.println("paiement : "+paiement+" montant "+montant);
+	}
+	
+	//***************************************************
+	// RECHERCHE ID DE LA TRANSACTION
+	//***************************************************
+	
+	public int rechercheIDTransaction(String paiement, float montant) throws SQLException {
+		ResultSet resultats;
+		String requete;
+		
+		BigDecimal prix2 = new BigDecimal(Float.toString(montant));
+		BigDecimal operation = new BigDecimal(0.01);
+		BigDecimal prixminus = prix2.subtract(operation);
+		BigDecimal prixplus = prix2.add(operation);
+		
+		//System.out.println("prixminus = "+prixminus+" prixplus = "+prixplus);
+		//System.out.println("SELECT id FROM `transactions` WHERE transactions.paiement = '"+paiement+"' AND DATE(transactions.date)=DATE(NOW()) AND transactions.montant BETWEEN "+prixminus+" AND "+prixplus+";");
+		
+		requete = "SELECT id FROM `transactions` WHERE transactions.paiement = '"+paiement+"' AND DATE(transactions.date)=DATE(NOW()) AND transactions.montant BETWEEN "+prixminus+" AND "+prixplus+";";
+		Statement stmt = con.createStatement();
+		resultats = stmt.executeQuery(requete);
+		int retour = 0;
+		while (resultats.next()) {
+			retour = resultats.getInt(1);
+		}	
+		return retour;
+	}
+	
+	//***************************************************
+	// CREATION PRODUIT DU TICKET
+	//***************************************************
+	
+	public void creationProduitdeTicket(int idTransaction, String produit, float prix,int quantite ) throws SQLException {
+		Statement command = con.createStatement();
+		command.execute("INSERT INTO `ticket` (`id`, `id_transaction`, `nom`, `prix`, `quantite`) VALUES (NULL, '"+idTransaction+"', '"+produit+"', '"+prix+"', '"+quantite+"' );");
+		
+	}
+	
+	//***************************************************
+	// MAJ TRANSACTIONS
+	//***************************************************
+	
+	public void majTransaction() throws SQLException {
+		ResultSet resultats;
+		String requete;
+		ListTransaction.clear();
+		requete = "SELECT * FROM `transactions`";
+		Statement stmt = con.createStatement();
+		resultats = stmt.executeQuery(requete);
+		while (resultats.next()) {
+			//System.out.println(" "+resultats.getInt(1)+" "+resultats.getString(2)+" "+resultats.getFloat(3)+" "+resultats.getString(4));
+			TRANSACTION transaction = new TRANSACTION(resultats.getInt(1), resultats.getString(2), resultats.getFloat(3), resultats.getString(4));
+			ListTransaction.add(transaction);
+		}
+	}
+	
+	//***************************************************
+	// RESET TICKET
+	//***************************************************
+	
+	public void resetTicket() {
+		for(int i=0;i!=main.getM().getTicket().size();i++) {
+			main.getM().getTicket().remove(i);
+		}
+		
+	}
+	
+	//***************************************************
+	// CREATION CA DANS BDD
+	//***************************************************
+	public void creationCA() throws SQLException{
+		ResultSet resultats;
+		String requete;
+		//System.out.println("SELECT * FROM `transactions` where DATE(date) = '"+date+"'");
+		requete = "SELECT * FROM `ca` where date = DATE(NOW());";
+		Statement stmt = con.createStatement();
+		resultats = stmt.executeQuery(requete);
+		if(resultats.next()){
+			
+		}
+		else {
+			Statement command = con.createStatement();
+			command.execute("INSERT INTO `ca` (`id`, `chiffrejour`, `date`) VALUES (NULL, '0', DATE(NOW()));");
+		}
+		
+	}
+	
+	//***************************************************
+	// RECHERCHE PRODUIT A PARTIR DU TICKET
+	//***************************************************
+	
+	public void produitticket(int idTransaction) throws SQLException {
+		ResultSet resultats;
+		String requete;
+		requete="SELECT ticket.nom,ticket.quantite,ticket.prix FROM ticket, transactions WHERE transactions.id=ticket.id_transaction AND ticket.id_transaction="+idTransaction+" ;";
+		Statement stmt = con.createStatement();
+		resultats = stmt.executeQuery(requete);
+		if(ListProduitsTransaction.size()!=0) {
+			ListProduitsTransaction.clear();
+		}
+		while (resultats.next()) {
+			PRODUIT produit = new PRODUIT(resultats.getString(1),resultats.getInt(2),resultats.getFloat(3));
+			//System.out.println("nom = "+resultats.getString(1)+" quantite = "+resultats.getInt(2)+" prix = "+resultats.getFloat(3));
+			ListProduitsTransaction.add(produit);
+		}
+	}
 	
 	//***************************************************
 	//***************************************************

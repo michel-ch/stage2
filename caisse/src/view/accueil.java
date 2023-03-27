@@ -17,7 +17,9 @@ import model.model;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.awt.event.ActionEvent;
@@ -60,6 +62,7 @@ public class accueil {
 			e.printStackTrace();
 		}
 		frame.setVisible(true);
+		main.getM().creationCA();
 	}
 	
 
@@ -69,7 +72,7 @@ public class accueil {
 	 */
 	private void initialize() throws SQLException {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 1080, 1080);
+		frame.setBounds(100, 100, 1031, 1080);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -88,15 +91,15 @@ public class accueil {
 		lblNewLabel_1_1.setBounds(354, 900, 117, 22);
 		frame.getContentPane().add(lblNewLabel_1_1);
 		
-		JLabel total = new JLabel("---");
-		total.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		total.setBounds(533, 850, 67, 22);
-		frame.getContentPane().add(total);
+		JLabel total_sanstva = new JLabel("---");
+		total_sanstva.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		total_sanstva.setBounds(533, 850, 67, 22);
+		frame.getContentPane().add(total_sanstva);
 		
-		JLabel total_ttc = new JLabel("---");
-		total_ttc.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		total_ttc.setBounds(533, 900, 67, 22);
-		frame.getContentPane().add(total_ttc);
+		JLabel total_tva = new JLabel("---");
+		total_tva.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		total_tva.setBounds(533, 900, 67, 22);
+		frame.getContentPane().add(total_tva);
 		
 		JLabel lblNewLabel_2 = new JLabel("€");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 22));
@@ -115,12 +118,12 @@ public class accueil {
 			}
 		});
 		button_parametre.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		button_parametre.setBounds(752, 85, 172, 46);
+		button_parametre.setBounds(752, 108, 172, 46);
 		frame.getContentPane().add(button_parametre);
 		
-		JLabel verif = new JLabel("Texte confirmation // ERREUR");
+		JLabel verif = new JLabel("");
 		verif.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		verif.setBounds(713, 248, 265, 186);
+		verif.setBounds(706, 277, 265, 134);
 		frame.getContentPane().add(verif);
 		
 		JButton button_ajoutlistmanuel = new JButton("Ajout Manuel");
@@ -130,20 +133,8 @@ public class accueil {
 			}
 		});
 		button_ajoutlistmanuel.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		button_ajoutlistmanuel.setBounds(758, 550, 166, 46);
+		button_ajoutlistmanuel.setBounds(752, 540, 172, 46);
 		frame.getContentPane().add(button_ajoutlistmanuel);
-		
-		JButton button_supprimerlist = new JButton("Supprimer");
-		button_supprimerlist.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				/// CODE POUR SUPPRIMER DIRECTEMENT SUR PAGE ACCUEIL // -> ICI
-				
-			}
-		});
-		button_supprimerlist.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		button_supprimerlist.setBounds(758, 630, 166, 46);
-		frame.getContentPane().add(button_supprimerlist);
 		
 		JLabel lblNewLabel_1_1_1 = new JLabel("TOTAL A PAYER");
 		lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 22));
@@ -155,10 +146,10 @@ public class accueil {
 		lblNewLabel_2_1_1.setBounds(608, 950, 26, 22);
 		frame.getContentPane().add(lblNewLabel_2_1_1);
 		
-		JLabel total_ttc_1 = new JLabel("---");
-		total_ttc_1.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		total_ttc_1.setBounds(533, 950, 65, 22);
-		frame.getContentPane().add(total_ttc_1);
+		JLabel total_payer = new JLabel("---");
+		total_payer.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		total_payer.setBounds(533, 950, 65, 22);
+		frame.getContentPane().add(total_payer);
 		
 		JButton btnAjout = new JButton("Ajout");
 		btnAjout.addActionListener(new ActionListener() {
@@ -169,18 +160,8 @@ public class accueil {
 			}
 		});
 		btnAjout.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		btnAjout.setBounds(758, 469, 166, 46);
+		btnAjout.setBounds(752, 440, 172, 46);
 		frame.getContentPane().add(btnAjout);
-		
-		JButton button_paiement = new JButton("Paiement");
-		button_paiement.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				paiement window = new paiement();
-			}
-		});
-		button_paiement.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		button_paiement.setBounds(758, 790, 166, 46);
-		frame.getContentPane().add(button_paiement);
 		
 		JButton button_deduction = new JButton("Déduction");
 		button_deduction.addActionListener(new ActionListener() {
@@ -189,7 +170,7 @@ public class accueil {
 			}
 		});
 		button_deduction.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		button_deduction.setBounds(758, 710, 166, 46);
+		button_deduction.setBounds(752, 740, 172, 46);
 		frame.getContentPane().add(button_deduction);
 		
 		JButton button_ca = new JButton("Chiffre d'affaire");
@@ -199,19 +180,21 @@ public class accueil {
 			}
 		});
 		button_ca.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		button_ca.setBounds(752, 177, 172, 46);
+		button_ca.setBounds(752, 208, 172, 46);
 		frame.getContentPane().add(button_ca);
 		
 		// DONNEES TESTS
-		main.getM().ajoutticket("produit1", 1,11);
-		main.getM().ajoutticket("produit2", 1,22);
+		//main.getM().ajoutticket("produit1", 1,11);
+		//main.getM().ajoutticket("produit2", 1,22);
 		
 		
 		// en tete tableau
-		String[] columns = new String[] {
-	            "Nom","Quantite","Prix"
-	        };
-		DefaultTableModel tableModel = new DefaultTableModel();
+		
+		DefaultTableModel tableModel = new DefaultTableModel() {
+			public boolean isCellEditable(int i, int i1) {
+		        return false; //To change body of generated methods, choose Tools | Templates.
+		    }
+		};
 		tableModel.addColumn("Nom");
 		tableModel.addColumn("Quantite");
 		tableModel.addColumn("Prix");
@@ -226,24 +209,43 @@ public class accueil {
 		table.setRowHeight(25);
 		table.setRowMargin(10);
 		
-		tableModel.addRow(new Object[] {"produit","1","prix"});
-		
 		//données pour JTable dans un tableau 2D
 		tableModel.getDataVector().removeAllElements();
 		for (int i=0;i!=main.getM().getTicket().size();i++) {
 			String nom = main.getM().getTicket().get(i).getNom();
 			float prix = main.getM().getTicket().get(i).getPrix();
 			int quantite = main.getM().getTicket().get(i).getQuantite();
-			System.out.println("nom : "+nom+" quantite : "+quantite+" prix : "+prix);
+			//System.out.println("nom : "+nom+" quantite : "+quantite+" prix : "+prix);
 			Object[] data = {nom,quantite,prix};
 			tableModel.addRow(data);
 		}
 		
+		JButton button_supprimerlist = new JButton("Supprimer");
+		button_supprimerlist.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(table.getSelectedRow()>=0) {
+					//System.out.println("selected : "+table.getSelectedRow());
+					main.getM().getTicket().remove(table.getSelectedRow());
+					tableModel.removeRow(table.getSelectedRow());
+					verif.setText("<html>La suppression a bien <br> été effectuée.</html>");
+					//System.out.println("size : "+main.getM().getTicket().size());
+				}
+				else {
+					verif.setText("<html>Veuillez selectionner <br>un élément à supprimer.</html>");
+				}
+			}
+		});
+		button_supprimerlist.setFont(new Font("Tahoma", Font.PLAIN, 19));
+		button_supprimerlist.setBounds(752, 640, 172, 46);
+		frame.getContentPane().add(button_supprimerlist);
 		
 		Timer timer = new Timer();
 		TimerTask task = new TimerTask() {
 			@Override
 			public void run() {
+				if(main.getM().getTicket().size()==0){
+					tableModel.getDataVector().removeAllElements();
+				}
 				if(tableModel.getRowCount()!=main.getM().getTicket().size()) {
 					// DELETE ROWS OF TABLE
 					tableModel.getDataVector().removeAllElements();
@@ -256,12 +258,110 @@ public class accueil {
 						tableModel.addRow(data);
 					}
 				}
+				if(main.getM().getPaiement().size()!=0) {
+					float asoustraire = 0;
+					for (int i=0;i!=main.getM().getPaiement().size();i++) {
+						asoustraire += main.getM().getPaiement().get(i).getMontant();
+					}
+					float c = Float.parseFloat(total_tva.getText())-asoustraire;
+					total_payer.setText(String.valueOf(c));
+				}
+				
 			};
 			
 		};
 		timer.schedule(task, 100,100);
 		
-
+		JButton button_paiement = new JButton("Paiement");
+		button_paiement.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// CALCUL DU TOTAL + INSERTION DANS LES LABELS
+				BigDecimal total = BigDecimal.ZERO;
+				for(int i=0;i!=table.getModel().getRowCount();i++) {
+					BigDecimal quantite = new BigDecimal(table.getModel().getValueAt(i,1).toString());
+					BigDecimal prix = new BigDecimal(table.getModel().getValueAt(i,2).toString());
+					//System.out.println("quantite : "+quantite+" prix : "+prix);//
+					BigDecimal ajout = prix.multiply(quantite);
+					System.out.println("ajout : "+ajout);
+					total = total.add(ajout);
+					System.out.println(total);
+				}
+				System.out.println("total : "+total);
+				total_sanstva.setText(String.valueOf(total));
+				//System.out.println("TVA : "+main.getM().findTVA(1).getTva());
+				BigDecimal tva = new BigDecimal(String.valueOf(main.getM().findTVA(1).getTva()/100));
+				BigDecimal aj = total.multiply(tva);
+				BigDecimal totalttc = total.add(aj);
+				total_tva.setText(String.valueOf(totalttc));
+				System.out.println("total ttc : "+totalttc);//
+				
+				total_payer.setText(String.valueOf(totalttc));
+				
+				paiement vca = new paiement(totalttc);
+			}
+		});
+		button_paiement.setFont(new Font("Tahoma", Font.PLAIN, 19));
+		button_paiement.setBounds(752, 840, 172, 46);
+		frame.getContentPane().add(button_paiement);
+		
+		JButton valider = new JButton("Valider");
+		valider.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// RECUPERATION DATA FROM PAIEMENT ET COMPARAISON -> ADDITION POUR VERIFICATION
+				float totalv = 0;
+				float totalttc = Float.parseFloat(total_tva.getText());
+				String paiement = "";
+				for (int i=0;i!=main.getM().getPaiement().size();i++) {
+					totalv += main.getM().getPaiement().get(i).getMontant();
+					if(i>=1) {
+						paiement += "+ "+main.getM().getPaiement().get(i).getPaiement();
+					}
+					else {
+						paiement += main.getM().getPaiement().get(i).getPaiement();
+					}
+				}
+				if(totalttc==totalv){
+					//System.out.println(totalv);
+					//System.out.println(paiement);
+					// CREATION TRANSACTION AVEC LA DATA
+					try {
+						main.getM().creationTransaction(paiement, totalttc);
+						int retour = main.getM().rechercheIDTransaction(paiement, totalttc);
+						for(int i=0;i!=main.getM().getTicket().size();i++) {
+							//System.out.println("Id Transaction = "+retour+" nom = "+main.getM().getTicket().get(i).getNom()+" prix = "+main.getM().getTicket().get(i).getPrix());
+							main.getM().creationProduitdeTicket(retour, main.getM().getTicket().get(i).getNom(),main.getM().getTicket().get(i).getPrix(),main.getM().getTicket().get(i).getQuantite());
+						}
+						
+						//System.out.println("ticket = "+main.getM().getTicket().size());
+						if(main.getM().getTicket().size()>=0) {
+							main.getM().getTicket().clear();
+							tableModel.getDataVector().removeAllElements();
+						}
+						
+						main.getM().getPaiement().clear();
+						//main.getM().getTicket().clear();
+						main.getM().majTransaction();
+						
+						//System.out.println("paiement "+main.getM().getPaiement().size()+" ticket "+main.getM().getTicket().size()+" transaction "+main.getM().getListTransaction().size());
+						
+						total_payer.setText(null);
+						total_sanstva.setText(null);
+						total_tva.setText(null);
+						frame.setVisible(false);
+						frame.setVisible(true);
+						
+						
+						
+					} catch (SQLException e1) {
+						verif.setText("<html>Une erreur est survenue.<br>Veuillez contacter le support.</html>");
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
+		valider.setFont(new Font("Tahoma", Font.PLAIN, 19));
+		valider.setBounds(752, 940, 172, 46);
+		frame.getContentPane().add(valider);
 		
 	}
 }

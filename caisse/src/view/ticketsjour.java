@@ -10,14 +10,18 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 
 import controller.main;
 
 import javax.swing.JComboBox;
+import javax.swing.JTable;
 
 public class ticketsjour {
 
 	private JFrame frame;
+	private JTable table;
+	private JTable table_1;
 
 	/**
 	 * Launch the application.
@@ -52,7 +56,7 @@ public class ticketsjour {
 		main.getM().consulterCAJOUR(a);
 		initialize();
 		frame.setVisible(true);
-		System.out.println("date selectionnée: "+a);
+		//System.out.println("date selectionnée: "+a);
 	}
 
 	/**
@@ -116,6 +120,20 @@ public class ticketsjour {
 		paiement.setBounds(264, 339, 286, 36);
 		frame.getContentPane().add(paiement);
 		
+		
+		DefaultTableModel tableModel = new DefaultTableModel() {
+			public boolean isCellEditable(int i, int i1) {
+		        return false; //To change body of generated methods, choose Tools | Templates.
+		    }
+		};
+		tableModel.addColumn("Nom");
+		tableModel.addColumn("Quantite");
+		tableModel.addColumn("Prix");
+		
+		JTable table = new JTable(tableModel);
+		table.setBounds(520, 214, 478, 363);
+		frame.getContentPane().add(table);
+		
 		JComboBox combo = new JComboBox();
 		
 		System.out.println("size : "+main.getM().getListTransaction().size());
@@ -130,11 +148,29 @@ public class ticketsjour {
 				paiement.setText(main.getM().getListTransaction().get(combo.getSelectedIndex()).getPaiement());
 				date.setText(main.getM().getListTransaction().get(combo.getSelectedIndex()).getDate());
 				
+				try {
+					System.out.println("ID = "+main.getM().getListTransaction().get(combo.getSelectedIndex()).getId());
+					main.getM().produitticket(main.getM().getListTransaction().get(combo.getSelectedIndex()).getId());
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				
+				tableModel.getDataVector().removeAllElements();
+				for (int i=0;i!=main.getM().getListProduitsTransaction().size();i++) {
+					String nom = main.getM().getListProduitsTransaction().get(i).getNom();
+					float prix = main.getM().getListProduitsTransaction().get(i).getPrix();
+					int quantite = main.getM().getListProduitsTransaction().get(i).getQuantite();
+					System.out.println("nom = "+nom+" quantite = "+quantite+" prix = "+prix);
+					Object[] data = {nom,quantite,prix};
+					tableModel.addRow(data);
+				}
+				System.out.println("Table count row = "+tableModel.getRowCount());
 			}
 		});
 		combo.setBounds(346, 112, 398, 36);
 		frame.getContentPane().add(combo);
 		
+		
+		
 	}
-	
 }

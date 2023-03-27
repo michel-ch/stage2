@@ -43,7 +43,7 @@ public class parametres {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 1080, 656);
+		frame.setBounds(100, 100, 922, 656);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -93,16 +93,6 @@ public class parametres {
 		btnSuppresionDeProduits.setBounds(99, 319, 264, 46);
 		frame.getContentPane().add(btnSuppresionDeProduits);
 		
-		JButton btnSuppressionDeTransactions = new JButton("Suppression de Transaction");
-		btnSuppressionDeTransactions.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				suppression_transaction vca = new suppression_transaction();
-			}
-		});
-		btnSuppressionDeTransactions.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		btnSuppressionDeTransactions.setBounds(482, 154, 290, 46);
-		frame.getContentPane().add(btnSuppressionDeTransactions);
-		
 		JButton btnModificationTva = new JButton("Modification TVA");
 		btnModificationTva.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -110,7 +100,7 @@ public class parametres {
 			}
 		});
 		btnModificationTva.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		btnModificationTva.setBounds(482, 319, 290, 46);
+		btnModificationTva.setBounds(460, 299, 290, 46);
 		frame.getContentPane().add(btnModificationTva);
 		
 		JButton btnAjoutDeTransactions = new JButton("Ajout de Transaction\r\n régularisation");
@@ -120,7 +110,7 @@ public class parametres {
 			}
 		});
 		btnAjoutDeTransactions.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		btnAjoutDeTransactions.setBounds(462, 235, 333, 46);
+		btnAjoutDeTransactions.setBounds(460, 191, 333, 46);
 		frame.getContentPane().add(btnAjoutDeTransactions);
 	}
 

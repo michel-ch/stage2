@@ -1,7 +1,5 @@
 package model;
 
-import java.awt.Image;
-
 public class TRANSACTION {
 	private int id;
 	private String paiement;
@@ -39,6 +37,11 @@ public class TRANSACTION {
 		this.paiement = paiement;
 		this.montant = montant;
 		this.date = date;
+	}
+	public TRANSACTION(String paiement, float montant) {
+		super();
+		this.paiement = paiement;
+		this.montant = montant;
 	}
 	
 }
