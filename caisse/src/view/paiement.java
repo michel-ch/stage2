@@ -19,6 +19,8 @@ import javax.swing.SwingConstants;
 import controller.main;
 
 import javax.swing.JRadioButton;
+import java.awt.Color;
+import javax.swing.ImageIcon;
 
 public class paiement {
 
@@ -57,6 +59,7 @@ public class paiement {
 	 */
 	private void initialize(BigDecimal totalttc) {
 		frame = new JFrame();
+		frame.getContentPane().setBackground(new Color(102, 153, 204));
 		frame.setBounds(100, 100, 636, 422);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -72,7 +75,9 @@ public class paiement {
 		lblNewLabel_1.setBounds(318, 131, 166, 44);
 		frame.getContentPane().add(lblNewLabel_1);
 		
-		JButton button_retour = new JButton("Précédent");
+		JButton button_retour = new JButton("");
+		button_retour.setBackground(new Color(192, 192, 192));
+		button_retour.setIcon(new ImageIcon("image/button_precedent.png"));
 		button_retour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
@@ -81,6 +86,8 @@ public class paiement {
 		button_retour.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		button_retour.setBounds(31, 293, 166, 46);
 		frame.getContentPane().add(button_retour);
+		button_retour.setOpaque(false);
+		button_retour.setBorderPainted(false);
 		
 		JLabel verif = new JLabel("---");
 		verif.setHorizontalAlignment(SwingConstants.CENTER);
@@ -88,6 +95,7 @@ public class paiement {
 		frame.getContentPane().add(verif);
 		
 		personnalise = new JTextField();
+		personnalise.setBackground(new Color(102, 153, 204));
 		personnalise.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		personnalise.setEnabled(false);
 		personnalise.setEditable(false);
@@ -95,6 +103,7 @@ public class paiement {
 		frame.getContentPane().add(personnalise);
 		personnalise.setColumns(10);
 		personnalise.setVisible(false);
+		personnalise.setOpaque(false);
 		
 		JLabel montant_1 = new JLabel("€");
 		montant_1.setHorizontalAlignment(SwingConstants.CENTER);
@@ -109,16 +118,19 @@ public class paiement {
 		frame.getContentPane().add(montant_1_1);
 		
 		JRadioButton espece = new JRadioButton("Espèce");
+		espece.setBackground(new Color(102, 153, 204));
 		espece.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		espece.setBounds(21, 174, 109, 23);
 		frame.getContentPane().add(espece);
 		
 		JRadioButton perso = new JRadioButton("Personnalisé");
+		perso.setBackground(new Color(102, 153, 204));
 		perso.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		perso.setBounds(21, 201, 140, 45);
 		frame.getContentPane().add(perso);
 		
 		JRadioButton carte_bleue = new JRadioButton("Carte Bleue");
+		carte_bleue.setBackground(new Color(102, 153, 204));
 		carte_bleue.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		carte_bleue.setBounds(21, 142, 130, 23);
 		frame.getContentPane().add(carte_bleue);
@@ -136,7 +148,7 @@ public class paiement {
 		
 		montant = new JTextField();
 		montant.setHorizontalAlignment(SwingConstants.CENTER);
-		montant.setBounds(485, 171, 73, 36);
+		montant.setBounds(482, 175, 73, 36);
 		frame.getContentPane().add(montant);
 		montant.setColumns(10);
 		
@@ -170,7 +182,9 @@ public class paiement {
 		};
 		timer.schedule(task, 100,100);
 		
-		JButton valider = new JButton("Valider");
+		JButton valider = new JButton("");
+		valider.setBackground(new Color(192, 192, 192));
+		valider.setIcon(new ImageIcon("image/button_valider 2.png"));
 		valider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				float m = Float.parseFloat(montant.getText());
@@ -214,10 +228,10 @@ public class paiement {
 			}
 		});
 		valider.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		valider.setBounds(415, 293, 166, 46);
+		valider.setBounds(254, 293, 166, 46);
 		frame.getContentPane().add(valider);
-		
-		
+		valider.setOpaque(false);
+		valider.setBorderPainted(false);
 		
 	}
 }

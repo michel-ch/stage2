@@ -14,6 +14,8 @@ import javax.swing.SwingConstants;
 import controller.main;
 
 import javax.swing.JComboBox;
+import java.awt.Color;
+import javax.swing.ImageIcon;
 
 public class ca {
 
@@ -48,11 +50,14 @@ public class ca {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.getContentPane().setBackground(new Color(102, 153, 204));
 		frame.setBounds(100, 100, 1080, 656);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JButton button_retour = new JButton("Précédent");
+		JButton button_retour = new JButton("");
+		button_retour.setBackground(new Color(192, 192, 192));
+		button_retour.setIcon(new ImageIcon("image/button_precedent.png"));
 		button_retour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
@@ -61,6 +66,8 @@ public class ca {
 		button_retour.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		button_retour.setBounds(57, 531, 166, 46);
 		frame.getContentPane().add(button_retour);
+		button_retour.setOpaque(false);
+		button_retour.setBorderPainted(false);
 		
 		JLabel lblParamtres = new JLabel("Chiffre d'affaire");
 		lblParamtres.setHorizontalAlignment(SwingConstants.CENTER);

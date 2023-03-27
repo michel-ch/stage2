@@ -14,6 +14,8 @@ import javax.swing.SwingConstants;
 import controller.main;
 
 import javax.swing.JTextField;
+import java.awt.Color;
+import javax.swing.ImageIcon;
 
 public class modif_tva {
 
@@ -49,19 +51,24 @@ public class modif_tva {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.getContentPane().setBackground(new Color(102, 153, 204));
 		frame.setBounds(100, 100, 720, 480);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JButton button_retour = new JButton("Précédent");
+		JButton button_retour = new JButton("");
+		button_retour.setBackground(new Color(192, 192, 192));
+		button_retour.setIcon(new ImageIcon("image/button_precedent.png"));
 		button_retour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
 			}
 		});
 		button_retour.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		button_retour.setBounds(46, 342, 166, 46);
+		button_retour.setBounds(46, 342, 157, 46);
 		frame.getContentPane().add(button_retour);
+		button_retour.setOpaque(false);
+		button_retour.setBorderPainted(false);
 		
 		JLabel lblModificationDeLa = new JLabel("Modification de la TVA");
 		lblModificationDeLa.setHorizontalAlignment(SwingConstants.CENTER);
@@ -99,7 +106,9 @@ public class modif_tva {
 		
 		tva_actuelle.setText(String.valueOf(main.getM().getTVA().get(0).getTva()));
 		
-		JButton btnValider = new JButton("Valider");
+		JButton btnValider = new JButton("");
+		btnValider.setBackground(new Color(192, 192, 192));
+		btnValider.setIcon(new ImageIcon("image/button_valider 2.png"));
 		btnValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(Float.parseFloat(tva.getText())<100) {
@@ -121,5 +130,7 @@ public class modif_tva {
 		btnValider.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		btnValider.setBounds(350, 342, 157, 46);
 		frame.getContentPane().add(btnValider);
+		btnValider.setOpaque(false);
+		btnValider.setBorderPainted(false);
 	}
 }

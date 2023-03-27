@@ -28,6 +28,7 @@ import javax.swing.JSpinner;
 import javax.swing.JList;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.ImageIcon;
 
 public class accueil {
 
@@ -72,14 +73,10 @@ public class accueil {
 	 */
 	private void initialize() throws SQLException {
 		frame = new JFrame();
+		frame.getContentPane().setBackground(new Color(102, 153, 204));
 		frame.setBounds(100, 100, 1031, 1080);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		
-		JLabel lblNewLabel = new JLabel("Caisse de vente");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNewLabel.setBounds(289, 22, 166, 46);
-		frame.getContentPane().add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("TOTAL");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 22));
@@ -111,30 +108,39 @@ public class accueil {
 		lblNewLabel_2_1.setBounds(608, 900, 26, 22);
 		frame.getContentPane().add(lblNewLabel_2_1);
 		
-		JButton button_parametre = new JButton("Paramètres");
-		button_parametre.addActionListener(new ActionListener() {
+		JButton btnParamtres = new JButton("");
+		btnParamtres.setIcon(new ImageIcon("image/button_parametres.png"));
+		btnParamtres.setBackground(new Color(192, 192, 192));
+		btnParamtres.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				parametres vca = new parametres();
 			}
 		});
-		button_parametre.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		button_parametre.setBounds(752, 108, 172, 46);
-		frame.getContentPane().add(button_parametre);
+		btnParamtres.setFont(new Font("Tahoma", Font.PLAIN, 19));
+		btnParamtres.setBounds(706, 115, 236, 62);
+		frame.getContentPane().add(btnParamtres);
+		btnParamtres.setOpaque(false);
+		btnParamtres.setBorderPainted(false);
 		
 		JLabel verif = new JLabel("");
 		verif.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		verif.setBounds(706, 277, 265, 134);
+		verif.setBounds(689, 288, 265, 134);
 		frame.getContentPane().add(verif);
 		
-		JButton button_ajoutlistmanuel = new JButton("Ajout Manuel");
+		JButton button_ajoutlistmanuel = new JButton("");
+		button_ajoutlistmanuel.setIcon(new ImageIcon("image/button_ajout-manuel.png"));
+		button_ajoutlistmanuel.setBackground(new Color(50, 205, 50));
 		button_ajoutlistmanuel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ajout_manuel vca = new ajout_manuel();
 			}
 		});
 		button_ajoutlistmanuel.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		button_ajoutlistmanuel.setBounds(752, 540, 172, 46);
+		button_ajoutlistmanuel.setBounds(706, 540, 236, 62);
 		frame.getContentPane().add(button_ajoutlistmanuel);
+		button_ajoutlistmanuel.setOpaque(false);
+		button_ajoutlistmanuel.setBorderPainted(false);
+
 		
 		JLabel lblNewLabel_1_1_1 = new JLabel("TOTAL A PAYER");
 		lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 22));
@@ -151,7 +157,9 @@ public class accueil {
 		total_payer.setBounds(533, 950, 65, 22);
 		frame.getContentPane().add(total_payer);
 		
-		JButton btnAjout = new JButton("Ajout");
+		JButton btnAjout = new JButton("");
+		btnAjout.setIcon(new ImageIcon("image/button_ajout.png"));
+		btnAjout.setBackground(new Color(50, 205, 50));
 		btnAjout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
@@ -160,28 +168,39 @@ public class accueil {
 			}
 		});
 		btnAjout.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		btnAjout.setBounds(752, 440, 172, 46);
+		btnAjout.setBounds(706, 440, 236, 62);
 		frame.getContentPane().add(btnAjout);
+		btnAjout.setOpaque(false);
+		btnAjout.setBorderPainted(false);
 		
-		JButton button_deduction = new JButton("Déduction");
+		JButton button_deduction = new JButton("");
+		button_deduction.setIcon(new ImageIcon("image/button_deduction.png"));
+		button_deduction.setBackground(new Color(255, 99, 71));
 		button_deduction.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				deduction vca = new deduction();
 			}
 		});
 		button_deduction.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		button_deduction.setBounds(752, 740, 172, 46);
+		button_deduction.setBounds(706, 740, 236, 62);
 		frame.getContentPane().add(button_deduction);
+		button_deduction.setOpaque(false);
+		button_deduction.setBorderPainted(false);
 		
-		JButton button_ca = new JButton("Chiffre d'affaire");
+		JButton button_ca = new JButton("");
+		button_ca.setIcon(new ImageIcon("image/button_chiffre-daffaire.png"));
+		button_ca.setBackground(new Color(192, 192,192));
+		button_ca.setForeground(new Color(0, 0, 0));
 		button_ca.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ca vca = new ca();
 			}
 		});
 		button_ca.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		button_ca.setBounds(752, 208, 172, 46);
+		button_ca.setBounds(706, 215, 236, 62);
 		frame.getContentPane().add(button_ca);
+		button_ca.setOpaque(false);
+		button_ca.setBorderPainted(false);
 		
 		// DONNEES TESTS
 		//main.getM().ajoutticket("produit1", 1,11);
@@ -203,7 +222,7 @@ public class accueil {
 		
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setFont(new Font("Arial", Font.PLAIN, 15));
-		table.setBounds(64, 108, 587, 667);
+		table.setBounds(64, 56, 587, 719);
 		frame.getContentPane().add(table);
 		//table.setBackground(new Color(230, 218, 198));
 		table.setRowHeight(25);
@@ -220,7 +239,9 @@ public class accueil {
 			tableModel.addRow(data);
 		}
 		
-		JButton button_supprimerlist = new JButton("Supprimer");
+		JButton button_supprimerlist = new JButton("");
+		button_supprimerlist.setIcon(new ImageIcon("image/button_supprimer.png"));
+		button_supprimerlist.setBackground(new Color(255, 0, 0));
 		button_supprimerlist.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(table.getSelectedRow()>=0) {
@@ -236,8 +257,10 @@ public class accueil {
 			}
 		});
 		button_supprimerlist.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		button_supprimerlist.setBounds(752, 640, 172, 46);
+		button_supprimerlist.setBounds(706, 640, 236, 62);
 		frame.getContentPane().add(button_supprimerlist);
+		button_supprimerlist.setOpaque(false);
+		button_supprimerlist.setBorderPainted(false);
 		
 		Timer timer = new Timer();
 		TimerTask task = new TimerTask() {
@@ -272,7 +295,9 @@ public class accueil {
 		};
 		timer.schedule(task, 100,100);
 		
-		JButton button_paiement = new JButton("Paiement");
+		JButton button_paiement = new JButton("");
+		button_paiement.setIcon(new ImageIcon("image/button_paiement.png"));
+		button_paiement.setBackground(new Color(30, 144, 255));
 		button_paiement.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// CALCUL DU TOTAL + INSERTION DANS LES LABELS
@@ -301,10 +326,14 @@ public class accueil {
 			}
 		});
 		button_paiement.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		button_paiement.setBounds(752, 840, 172, 46);
+		button_paiement.setBounds(706, 840, 236, 62);
 		frame.getContentPane().add(button_paiement);
+		button_paiement.setOpaque(false);
+		button_paiement.setBorderPainted(false);
 		
-		JButton valider = new JButton("Valider");
+		JButton valider = new JButton("");
+		valider.setIcon(new ImageIcon("image/button_valider.png"));
+		valider.setBackground(new Color(0, 128, 0));
 		valider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// RECUPERATION DATA FROM PAIEMENT ET COMPARAISON -> ADDITION POUR VERIFICATION
@@ -360,8 +389,10 @@ public class accueil {
 			}
 		});
 		valider.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		valider.setBounds(752, 940, 172, 46);
+		valider.setBounds(706, 940, 236, 62);
 		frame.getContentPane().add(valider);
+		valider.setOpaque(false);
+		valider.setBorderPainted(false);
 		
 	}
 }

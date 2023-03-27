@@ -15,6 +15,8 @@ import javax.swing.SwingConstants;
 import controller.main;
 
 import javax.swing.JComboBox;
+import java.awt.Color;
+import javax.swing.ImageIcon;
 
 public class suppression_produit {
 
@@ -49,11 +51,14 @@ public class suppression_produit {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.getContentPane().setBackground(new Color(102, 153, 204));
 		frame.setBounds(100, 100, 720, 480);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JButton button_retour = new JButton("Précédent");
+		JButton button_retour = new JButton("");
+		button_retour.setBackground(new Color(192, 192, 192));
+		button_retour.setIcon(new ImageIcon("image/button_precedent.png"));
 		button_retour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
@@ -62,6 +67,8 @@ public class suppression_produit {
 		button_retour.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		button_retour.setBounds(46, 342, 166, 46);
 		frame.getContentPane().add(button_retour);
+		button_retour.setOpaque(false);
+		button_retour.setBorderPainted(false);
 		
 		JLabel lblNewLabel = new JLabel("Suppression de produit");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -69,7 +76,7 @@ public class suppression_produit {
 		lblNewLabel.setBounds(243, 32, 205, 23);
 		frame.getContentPane().add(lblNewLabel);
 		
-		JLabel verif = new JLabel("infos");
+		JLabel verif = new JLabel("");
 		verif.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		verif.setBounds(58, 81, 583, 23);
 		frame.getContentPane().add(verif);
@@ -90,7 +97,9 @@ public class suppression_produit {
 		lblProduitSupprimer.setBounds(46, 164, 205, 36);
 		frame.getContentPane().add(lblProduitSupprimer);
 		
-		JButton btnValider = new JButton("Supprimer");
+		JButton btnValider = new JButton("");
+		btnValider.setBackground(new Color(192, 192, 192));
+		btnValider.setIcon(new ImageIcon("image/button_supprimer (1).png"));
 		btnValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -106,5 +115,7 @@ public class suppression_produit {
 		btnValider.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		btnValider.setBounds(374, 342, 157, 46);
 		frame.getContentPane().add(btnValider);
+		btnValider.setOpaque(false);
+		btnValider.setBorderPainted(false);
 	}
 }

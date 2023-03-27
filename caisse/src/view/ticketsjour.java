@@ -16,6 +16,8 @@ import controller.main;
 
 import javax.swing.JComboBox;
 import javax.swing.JTable;
+import java.awt.Color;
+import javax.swing.ImageIcon;
 
 public class ticketsjour {
 
@@ -64,60 +66,66 @@ public class ticketsjour {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.getContentPane().setBackground(new Color(102, 153, 204));
 		frame.setBounds(100, 100, 1080, 656);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
 		
-		JButton button_retour = new JButton("Précédent");
+		JButton button_retour = new JButton("");
+		button_retour.setBackground(new Color(192, 192, 192));
+		button_retour.setIcon(new ImageIcon("image/button_precedent.png"));
+		button_retour.setBounds(57, 531, 166, 46);
 		button_retour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
 			}
 		});
+		frame.getContentPane().setLayout(null);
 		button_retour.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		button_retour.setBounds(57, 531, 166, 46);
 		frame.getContentPane().add(button_retour);
+		button_retour.setOpaque(false);
+		button_retour.setBorderPainted(false);
+		
 		
 		JLabel lblParamtres = new JLabel("Tickets du jour");
+		lblParamtres.setBounds(433, 46, 216, 30);
 		lblParamtres.setHorizontalAlignment(SwingConstants.CENTER);
 		lblParamtres.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		lblParamtres.setBounds(433, 46, 216, 30);
 		frame.getContentPane().add(lblParamtres);
 		
 		JLabel lblDateDeTransaction = new JLabel("Date de la transaction :");
+		lblDateDeTransaction.setBounds(57, 214, 197, 36);
 		lblDateDeTransaction.setHorizontalAlignment(SwingConstants.LEFT);
 		lblDateDeTransaction.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		lblDateDeTransaction.setBounds(57, 214, 197, 36);
 		frame.getContentPane().add(lblDateDeTransaction);
 		
 		JLabel lblChiffreDuJour = new JLabel("Montant ticket :");
+		lblChiffreDuJour.setBounds(57, 273, 177, 36);
 		lblChiffreDuJour.setHorizontalAlignment(SwingConstants.LEFT);
 		lblChiffreDuJour.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		lblChiffreDuJour.setBounds(57, 273, 177, 36);
 		frame.getContentPane().add(lblChiffreDuJour);
 		
 		JLabel date = new JLabel("--");
+		date.setBounds(264, 214, 286, 36);
 		date.setHorizontalAlignment(SwingConstants.CENTER);
 		date.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		date.setBounds(264, 214, 286, 36);
 		frame.getContentPane().add(date);
 		
 		JLabel cajour = new JLabel("--");
+		cajour.setBounds(264, 273, 286, 36);
 		cajour.setHorizontalAlignment(SwingConstants.CENTER);
 		cajour.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		cajour.setBounds(264, 273, 286, 36);
 		frame.getContentPane().add(cajour);
 		
 		JLabel lblTypeDePaiement = new JLabel("Type de paiement :");
+		lblTypeDePaiement.setBounds(57, 339, 177, 36);
 		lblTypeDePaiement.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTypeDePaiement.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		lblTypeDePaiement.setBounds(57, 339, 177, 36);
 		frame.getContentPane().add(lblTypeDePaiement);
 		
 		JLabel paiement = new JLabel("--");
+		paiement.setBounds(264, 339, 286, 36);
 		paiement.setHorizontalAlignment(SwingConstants.CENTER);
 		paiement.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		paiement.setBounds(264, 339, 286, 36);
 		frame.getContentPane().add(paiement);
 		
 		
@@ -131,10 +139,14 @@ public class ticketsjour {
 		tableModel.addColumn("Prix");
 		
 		JTable table = new JTable(tableModel);
+		table.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		table.setBounds(520, 214, 478, 363);
+		table.setBackground(new Color(51, 204, 204));
 		frame.getContentPane().add(table);
 		
 		JComboBox combo = new JComboBox();
+		combo.setBounds(346, 112, 398, 36);
+		combo.setBackground(new Color(51, 204, 204));
 		
 		System.out.println("size : "+main.getM().getListTransaction().size());
 		
@@ -167,8 +179,22 @@ public class ticketsjour {
 				System.out.println("Table count row = "+tableModel.getRowCount());
 			}
 		});
-		combo.setBounds(346, 112, 398, 36);
 		frame.getContentPane().add(combo);
+		
+		JLabel lblNewLabel = new JLabel("Nom du produit");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblNewLabel.setBounds(520, 200, 115, 14);
+		frame.getContentPane().add(lblNewLabel);
+		
+		JLabel lblQuantit = new JLabel("Quantité");
+		lblQuantit.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblQuantit.setBounds(678, 200, 115, 14);
+		frame.getContentPane().add(lblQuantit);
+		
+		JLabel lblPrix = new JLabel("Prix");
+		lblPrix.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblPrix.setBounds(842, 200, 115, 14);
+		frame.getContentPane().add(lblPrix);
 		
 		
 		

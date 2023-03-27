@@ -23,6 +23,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JComboBox;
 import javax.swing.JList;
+import javax.swing.ImageIcon;
+import java.awt.Color;
 
 public class ajout_produit {
 
@@ -59,6 +61,7 @@ public class ajout_produit {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.getContentPane().setBackground(new Color(102, 153, 204));
 		frame.setBounds(100, 100, 720, 480);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -69,13 +72,15 @@ public class ajout_produit {
 		lblNewLabel.setBounds(243, 11, 216, 30);
 		frame.getContentPane().add(lblNewLabel);
 		
-		JLabel verif = new JLabel("---Verification---");
+		JLabel verif = new JLabel("");
 		verif.setHorizontalAlignment(SwingConstants.CENTER);
 		verif.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		verif.setBounds(10, 52, 684, 30);
 		frame.getContentPane().add(verif);
 		
-		JButton button_retour = new JButton("Précédent");
+		JButton button_retour = new JButton("");
+		button_retour.setBackground(new Color(192, 192, 192));
+		button_retour.setIcon(new ImageIcon("image/button_precedent.png"));
 		button_retour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
@@ -84,8 +89,8 @@ public class ajout_produit {
 		button_retour.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		button_retour.setBounds(38, 368, 166, 46);
 		frame.getContentPane().add(button_retour);
-		
-		
+		button_retour.setOpaque(false);
+		button_retour.setBorderPainted(false);
 		
 		JLabel label = new JLabel("Quantité :");
 		label.setHorizontalAlignment(SwingConstants.CENTER);
@@ -111,6 +116,7 @@ public class ajout_produit {
 		tableModel.addColumn("Prix");
 		
 		JTable table = new JTable(tableModel);
+		table.setBackground(new Color(255, 255, 255));
 		
 		table.setBounds(38, 93, 397, 253);
 		frame.getContentPane().add(table);
@@ -133,7 +139,9 @@ public class ajout_produit {
 			verif.setText("La base de données ne contient O produit.");
 		}
 		
-		JButton btnValider = new JButton("Valider");
+		JButton btnValider = new JButton("");
+		btnValider.setBackground(new Color(192, 192, 192));
+		btnValider.setIcon(new ImageIcon("image/button_valider 2.png"));
 		btnValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(table.getSelectedRowCount()!=1) {
@@ -163,7 +171,8 @@ public class ajout_produit {
 		btnValider.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		btnValider.setBounds(278, 368, 157, 46);
 		frame.getContentPane().add(btnValider);
-		
+		btnValider.setOpaque(false);
+		btnValider.setBorderPainted(false);
 		
 		
 	}
