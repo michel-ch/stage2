@@ -69,7 +69,7 @@ public class ca {
 		button_retour.setOpaque(false);
 		button_retour.setBorderPainted(false);
 		
-		JLabel lblParamtres = new JLabel("Chiffre d'affaire");
+		JLabel lblParamtres = new JLabel("Chiffre d'affaires");
 		lblParamtres.setHorizontalAlignment(SwingConstants.CENTER);
 		lblParamtres.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		lblParamtres.setBounds(433, 46, 216, 30);
@@ -116,7 +116,9 @@ public class ca {
 		}
 		
 		
-		JButton ticketsjour = new JButton("Voir les tickets du jour");
+		JButton ticketsjour = new JButton("");
+		ticketsjour.setBackground(new Color(192, 192, 192));
+		ticketsjour.setIcon(new ImageIcon("image/button_voir-tickets-du-jour.png"));
 		ticketsjour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String a = main.getM().getListCA().get(combo.getSelectedIndex()).getDate();
@@ -131,5 +133,7 @@ public class ca {
 		ticketsjour.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		ticketsjour.setBounds(659, 273, 243, 36);
 		frame.getContentPane().add(ticketsjour);
+		ticketsjour.setOpaque(false);
+		ticketsjour.setBorderPainted(false);
 	}
 }

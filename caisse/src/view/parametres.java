@@ -67,7 +67,7 @@ public class parametres {
 		JLabel lblParamtres = new JLabel("Paramètres");
 		lblParamtres.setHorizontalAlignment(SwingConstants.CENTER);
 		lblParamtres.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		lblParamtres.setBounds(433, 46, 216, 30);
+		lblParamtres.setBounds(371, 45, 216, 30);
 		frame.getContentPane().add(lblParamtres);
 		
 		JButton btnAjoutDeProduit = new JButton("");
